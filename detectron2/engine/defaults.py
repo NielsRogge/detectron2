@@ -306,12 +306,32 @@ class DefaultPredictor:
         """
         with torch.no_grad():  # https://github.com/sphinx-doc/sphinx/issues/4258
             # Apply pre-processing to image.
+            print("Input format:", self.input_format)
             if self.input_format == "RGB":
                 # whether the model expects BGR inputs or RGB
                 original_image = original_image[:, :, ::-1]
             height, width = original_image.shape[:2]
             image = self.aug.get_transform(original_image).apply_image(original_image)
             image = torch.as_tensor(image.astype("float32").transpose(2, 0, 1))
+
+            print("Inserting cats image...")
+            from PIL import Image
+            import requests
+            from torchvision import transforms
+
+            url = 'http://images.cocodataset.org/val2017/000000039769.jpg'
+            image = Image.open(requests.get(url, stream=True).raw)
+
+            transform = transforms.Compose([
+                transforms.Resize((224,224)),
+                transforms.ToTensor(),
+                transforms.Normalize(
+                    mean=[0.485, 0.456, 0.406],
+                    std=[0.229, 0.224, 0.225]
+                )
+            ])
+
+            image = transform(image).unsqueeze(0)
 
             inputs = {"image": image, "height": height, "width": width}
             predictions = self.model([inputs])[0]
