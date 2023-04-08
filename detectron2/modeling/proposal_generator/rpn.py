@@ -451,7 +451,17 @@ class RPN(nn.Module):
         features = [features[f] for f in self.in_features]
         anchors = self.anchor_generator(features)
 
+        print("Anchors:", anchors)
+
         pred_objectness_logits, pred_anchor_deltas = self.rpn_head(features)
+
+        print("pred_objectness_logits:")
+        for i in pred_objectness_logits:
+            print(i.shape)
+        print("pred_anchor_deltas:", pred_anchor_deltas)
+        for i in pred_anchor_deltas:
+            print(i.shape)
+
         # Transpose the Hi*Wi*A dimension to the middle:
         pred_objectness_logits = [
             # (N, A, Hi, Wi) -> (N, Hi, Wi, A) -> (N, Hi*Wi*A)
