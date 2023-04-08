@@ -223,9 +223,10 @@ class GeneralizedRCNN(nn.Module):
 
         features = self.backbone(images)
 
-        print("Backbone features:")
+        print("Features after backbone + FPN:")
         for k,v in features.items():
             print(k,v.shape)
+            print(f"First values of feature map {k}:", v[0,0,:3,:3])
         # features = self.backbone(images.tensor)
 
         if detected_instances is None:
