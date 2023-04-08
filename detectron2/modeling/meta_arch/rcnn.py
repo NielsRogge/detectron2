@@ -224,7 +224,7 @@ class GeneralizedRCNN(nn.Module):
         features = self.backbone(images)
 
         print("Backbone features:")
-        for k,v in features:
+        for k,v in features.items():
             print(k,v.shape)
         # features = self.backbone(images.tensor)
 
