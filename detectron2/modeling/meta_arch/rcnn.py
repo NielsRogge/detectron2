@@ -201,7 +201,32 @@ class GeneralizedRCNN(nn.Module):
         assert not self.training
 
         images = self.preprocess_image(batched_inputs)
-        features = self.backbone(images.tensor)
+
+        print("Inserting cats image...")
+        from PIL import Image
+        import requests
+        from torchvision import transforms
+
+        url = 'http://images.cocodataset.org/val2017/000000039769.jpg'
+        image = Image.open(requests.get(url, stream=True).raw)
+
+        transform = transforms.Compose([
+            transforms.Resize((224,224)),
+            transforms.ToTensor(),
+            transforms.Normalize(
+                mean=[0.485, 0.456, 0.406],
+                std=[0.229, 0.224, 0.225]
+            )
+        ])
+
+        images = transform(image).unsqueeze(0)
+
+        features = self.backbone(images)
+
+        print("Backbone features:")
+        for k,v in features:
+            print(k,v.shape)
+        # features = self.backbone(images.tensor)
 
         if detected_instances is None:
             if self.proposal_generator is not None:
