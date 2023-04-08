@@ -331,7 +331,7 @@ class DefaultPredictor:
                 )
             ])
 
-            image = transform(image).unsqueeze(0)
+            image = transform(image)
 
             inputs = {"image": image, "height": height, "width": width}
             predictions = self.model([inputs])[0]
