@@ -219,7 +219,7 @@ class GeneralizedRCNN(nn.Module):
             )
         ])
 
-        images = transform(image).unsqueeze(0)
+        images = transform(image).unsqueeze(0).to(self.device)
 
         features = self.backbone(images)
 
