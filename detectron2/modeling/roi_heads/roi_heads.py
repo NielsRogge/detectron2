@@ -798,6 +798,8 @@ class StandardROIHeads(ROIHeads):
         box_features = self.box_pooler(features, [x.proposal_boxes for x in proposals])
         box_features = self.box_head(box_features)
         predictions = self.box_predictor(box_features)
+        print("Inside RoI head")
+        print("Shape of box predictions:", predictions.shape)
         del box_features
 
         if self.training:
@@ -813,6 +815,7 @@ class StandardROIHeads(ROIHeads):
             return losses
         else:
             pred_instances, _ = self.box_predictor.inference(predictions, proposals)
+            print("Predicted instances:", pred_instances)
             return pred_instances
 
     def _forward_mask(self, features: Dict[str, torch.Tensor], instances: List[Instances]):
