@@ -451,9 +451,10 @@ class RPN(nn.Module):
         features = [features[f] for f in self.in_features]
         anchors = self.anchor_generator(features)
 
-        print("Number of anchors:", len(anchors))
-        print("Shape of first anchor:", anchors[0].tensor.shape)
-        print("First values of first anchor:", anchors[0].tensor[:3, :3])
+        # we have anchors for each feature level (scale)
+        for idx, anchors_level in enumerate(anchors):
+            print(f"Shape of anchors at level {idx}", anchors_level.tensor.shape)
+            print("First values of anchors:", anchors_level.tensor[0,:3])
 
         pred_objectness_logits, pred_anchor_deltas = self.rpn_head(features)
 
