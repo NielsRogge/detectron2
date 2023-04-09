@@ -799,7 +799,11 @@ class StandardROIHeads(ROIHeads):
         box_features = self.box_head(box_features)
         predictions = self.box_predictor(box_features)
         print("Inside RoI head")
-        print("Predictions of box predictor:", predictions)
+        cls_score, box_pred = predictions
+        print("Shape of cls score:", cls_score.shape)
+        print("First values of cls score:", cls_score[:3])
+        print("Shape of bbox_pred:", box_pred.shape)
+        print("First values of bbox_pred:", box_pred[:3,:3])
         del box_features
 
         if self.training:

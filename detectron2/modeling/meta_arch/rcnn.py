@@ -278,6 +278,7 @@ class GeneralizedRCNN(nn.Module):
         ):
             height = input_per_image.get("height", image_size[0])
             width = input_per_image.get("width", image_size[1])
+            height, width = 1035, 800
             r = detector_postprocess(results_per_image, height, width)
             processed_results.append({"instances": r})
         return processed_results
