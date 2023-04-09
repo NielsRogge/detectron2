@@ -496,8 +496,11 @@ class RPN(nn.Module):
             anchors, pred_objectness_logits, pred_anchor_deltas, image_sizes, # images.image_sizes
         )
 
-        print("Number of output proposals:", len(proposals))
-        print("Shape of first output proposal:", proposals[0].proposal_boxes.tensor.shape)
+        # proposals are of shape (number_of_proposals, 4)
+        print("Shape of output proposals:", proposals[0].proposal_boxes.tensor.shape)
+        print("First values of first proposal:", proposals[0].proposal_boxes.tensor[:3, :3])
+        print("Shape of output objectness:", proposals[0].objectness_logits.shape)
+        print("First values of first proposal objectness:", proposals[0].objectness_logits[:3])
 
         return proposals, losses
 
