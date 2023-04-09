@@ -498,6 +498,7 @@ class RPN(nn.Module):
         )
 
         # proposals are of shape (number_of_proposals, 4)
+        print("-----------RPN results-----------")
         print("Shape of output proposals:", proposals[0].proposal_boxes.tensor.shape)
         print("First values of first proposal:", proposals[0].proposal_boxes.tensor[:3, :3])
         print("Shape of output objectness:", proposals[0].objectness_logits.shape)
