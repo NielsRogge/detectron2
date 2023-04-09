@@ -115,6 +115,11 @@ class DefaultAnchorGenerator(nn.Module):
         """
         super().__init__()
 
+        print("Anchor strides: ", strides)
+        print("Aspect ratios: ", aspect_ratios)
+        print("Anchor sizes: ", sizes)
+        print("Offset: ", offset)
+
         self.strides = strides
         self.num_features = len(self.strides)
         sizes = _broadcast_params(sizes, self.num_features, "sizes")

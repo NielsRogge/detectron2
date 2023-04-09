@@ -461,8 +461,9 @@ class RPN(nn.Module):
         for idx, i in enumerate(pred_objectness_logits):
             print(idx, i.shape)
             print(idx, i[0,0,:3,:3])
+        print("------------------")
         print("First values of pred_anchor_deltas:")
-        for i in pred_anchor_deltas:
+        for idx, i in enumerate(pred_anchor_deltas):
             print(idx, i.shape)
             print(idx, i[0,0,:3,:3])
 
@@ -488,9 +489,16 @@ class RPN(nn.Module):
             )
         else:
             losses = {}
+
+        image_sizes = [(224, 224)]
+        # TODO add back image sizes
         proposals = self.predict_proposals(
-            anchors, pred_objectness_logits, pred_anchor_deltas, images.image_sizes
+            anchors, pred_objectness_logits, pred_anchor_deltas, image_sizes, # images.image_sizes
         )
+
+        print("Number of output proposals:", len(proposals))
+        print("Shape of first output proposal:", proposals[0].proposal_boxes.tensor.shape)
+
         return proposals, losses
 
     def predict_proposals(
