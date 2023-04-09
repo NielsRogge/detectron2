@@ -237,7 +237,7 @@ class GeneralizedRCNN(nn.Module):
                 proposals = [x["proposals"].to(self.device) for x in batched_inputs]
 
             results, _ = self.roi_heads(images, features, proposals, None)
-            print("----------ROI head results:-----------")
+            print("----------ROI head results (before postprocessing):-----------")
             for i in results:
                 print(i)
         else:
@@ -247,7 +247,10 @@ class GeneralizedRCNN(nn.Module):
         if do_postprocess:
             assert not torch.jit.is_scripting(), "Scripting is not supported for postprocess."
             image_sizes = [(1035, 800)]
-            return GeneralizedRCNN._postprocess(results, batched_inputs, image_sizes) # images.image_sizes
+            results = GeneralizedRCNN._postprocess(results, batched_inputs, image_sizes) # images.image_sizes
+            print("----------ROI head results (after postprocessing):-----------")
+            for i in results:
+                print(i)
         return results
 
     def preprocess_image(self, batched_inputs: List[Dict[str, torch.Tensor]]):
