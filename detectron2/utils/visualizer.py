@@ -400,7 +400,9 @@ class Visualizer:
 
         if predictions.has("pred_masks"):
             masks = np.asarray(predictions.pred_masks)
-            masks = [GenericMask(x, self.output.height, self.output.width) for x in masks]
+            height, width = 1035, 800
+            # self.output.height, self.output.width
+            masks = [GenericMask(x, height, width) for x in masks]
         else:
             masks = None
 
