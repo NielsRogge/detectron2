@@ -491,7 +491,7 @@ class RPN(nn.Module):
         else:
             losses = {}
 
-        image_sizes = [(224, 224)]
+        image_sizes = [(1035, 800)]
         # TODO add back image sizes
         proposals = self.predict_proposals(
             anchors, pred_objectness_logits, pred_anchor_deltas, image_sizes, # images.image_sizes
